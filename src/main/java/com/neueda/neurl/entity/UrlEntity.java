@@ -14,8 +14,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UrlEntity {
+    @TableGenerator(name = "ID_Gen", table = "ID_GEN", pkColumnName = "GEN_NAME",
+            valueColumnName = "GEN_VAL", pkColumnValue = "ID_Gen", initialValue = Integer.MAX_VALUE, allocationSize = 100)
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_Gen")
     private Long id;
     private String longUrl;
 }
+

@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  mysql-neurl:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=neurl-db
+      - MYSQL_USER=neurl
+      - MYSQL_PASSWORD=neurl
+
+    ports:
+      - 3306:3306
+
+  nuerl-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: neurl-api
+    restart: on-failure
+    depends_on:
+      - mysql-neurl
+    ports:
+      - 8080:8080

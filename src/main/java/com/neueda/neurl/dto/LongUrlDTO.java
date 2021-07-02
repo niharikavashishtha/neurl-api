@@ -1,10 +1,10 @@
-package com.neueda.neurl;
+package com.neueda.neurl.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class LongURLDto {
+public class LongUrlDTO {
     private String longUrl;
 }

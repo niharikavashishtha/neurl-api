@@ -1,6 +1,6 @@
 package com.neueda.neurl.service;
 
-import com.neueda.neurl.LongURLDto;
+import com.neueda.neurl.dto.LongUrlDTO;
 import com.neueda.neurl.entity.UrlEntity;
 import com.neueda.neurl.repository.UrlRepository;
 import org.junit.jupiter.api.Assertions;
@@ -49,7 +49,7 @@ public class UrlServiceTest {
         when(base62Service.encode(123L)).thenReturn("xyaabc");
         when(urlRepository.save(any(UrlEntity.class))).thenReturn(UrlEntity.builder().id(123L).build());
 
-        String shortUrl = urlService.toShortUrl(new LongURLDto());
+        String shortUrl = urlService.toShortUrl(new LongUrlDTO());
         assertEquals("xyaabc", shortUrl);
     }
 }

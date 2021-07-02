@@ -1,6 +1,6 @@
 package com.neueda.neurl.controller;
 
-import com.neueda.neurl.LongURLDto;
+import com.neueda.neurl.dto.LongUrlDTO;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class NeurlControllerTest {
     @Order(1)
     public void test_post_short_me_url() throws Exception {
 
-        LongURLDto longURLDto = new LongURLDto();
+        LongUrlDTO longURLDto = new LongUrlDTO();
         longURLDto.setLongUrl("http://www.neueda.com/something/exciting/going/to/happen/with/this/long/url");
 
         ResponseEntity<String> returnValue = this.restTemplate.postForEntity("http://localhost:" + port + "/neurl/short-me", longURLDto, String.class);
@@ -39,7 +39,7 @@ public class NeurlControllerTest {
     @Order(2)
     public void test_get_me_url() throws Exception {
 
-        LongURLDto longURLDto = new LongURLDto();
+        LongUrlDTO longURLDto = new LongUrlDTO();
         longURLDto.setLongUrl("http://www.neueda.com/something/exciting/going/to/happen/with/this/long/url");
 
         ResponseEntity<String> returnPostValue = this.restTemplate.postForEntity("http://localhost:" + port + "/neurl/short-me", longURLDto, String.class);

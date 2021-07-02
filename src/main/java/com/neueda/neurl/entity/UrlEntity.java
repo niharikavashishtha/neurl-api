@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -20,5 +21,7 @@ public class UrlEntity {
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_Gen")
     private Long id;
     private String longUrl;
+    @Column(nullable = false)
+    private Date createdDate;
 }
 

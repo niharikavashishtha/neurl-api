@@ -1,9 +1,10 @@
 package com.neueda.neurl.controller;
 
-import com.neueda.neurl.LongURLDto;
+import com.neueda.neurl.dto.LongUrlDTO;
 import com.neueda.neurl.service.UrlService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +22,11 @@ public class NeurlController {
 
     @PostMapping(path = "/short-me" )
     @ResponseBody
-    public String shortMe(@RequestBody LongURLDto longURLDto){
+    public String shortMe(@RequestBody LongUrlDTO longURLDto){
         return urlService.toShortUrl(longURLDto);
     }
 
+    @Cacheable(value = "urls", key = "#shortUrl", sync = true)
     @GetMapping(path = "/{shortUrl}")
     public ResponseEntity<Void> getMe(@PathVariable ("shortUrl") String shortUrl){
         return ResponseEntity.status(HttpStatus.FOUND)

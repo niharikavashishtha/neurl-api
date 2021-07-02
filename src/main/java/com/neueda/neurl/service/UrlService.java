@@ -1,12 +1,13 @@
 package com.neueda.neurl.service;
 
-import com.neueda.neurl.LongURLDto;
+import com.neueda.neurl.dto.LongUrlDTO;
 import com.neueda.neurl.entity.UrlEntity;
 import com.neueda.neurl.repository.UrlRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Date;
 
 
 @Service
@@ -22,8 +23,9 @@ public class UrlService {
        return urlEntity.getLongUrl();
     }
 
-    public String toShortUrl(LongURLDto longURLDto){
-        UrlEntity urlEntity = UrlEntity.builder().longUrl(longURLDto.getLongUrl()).build();
+    public String toShortUrl(LongUrlDTO longURLDto){
+        UrlEntity urlEntity = UrlEntity.builder().longUrl(longURLDto.getLongUrl())
+                .createdDate(new Date()).build();
         urlEntity = urlRepository.save(urlEntity);
         return base62Service.encode(urlEntity.getId());
 

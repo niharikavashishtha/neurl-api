@@ -4,7 +4,11 @@ import com.neueda.neurl.LongURLDto;
 import com.neueda.neurl.service.UrlService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 
 @RestController
@@ -22,8 +26,9 @@ public class NeurlController {
     }
 
     @GetMapping(path = "/{shortUrl}")
-    @ResponseBody
-    public String getMe(@PathVariable ("shortUrl") String shortUrl){
-        return urlService.getLongUrl(shortUrl);
+    public ResponseEntity<Void> getMe(@PathVariable ("shortUrl") String shortUrl){
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create(urlService.getLongUrl(shortUrl)))
+                .build();
     }
 }

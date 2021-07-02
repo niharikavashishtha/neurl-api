@@ -6,4 +6,4 @@ RUN mvn -f /usr/src/app/pom.xml clean package -DskipTests=true
 FROM openjdk:8-jdk-alpine
 COPY --from=build /usr/src/app/target/neurl-api-0.0.1-SNAPSHOT.jar /usr/src/app/neurl-api-0.0.1-SNAPSHOT.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/usr/src/app/neurl-api-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","-Dspring.profiles.active=mysql","/usr/src/app/neurl-api-0.0.1-SNAPSHOT.jar"]

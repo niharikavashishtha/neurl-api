@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-
   mysql-neurl:
     image: mysql:latest
     environment:
@@ -11,8 +10,10 @@ services:
       - MYSQL_PASSWORD=neurl
     ports:
       - 3306:3306
+    security_opt:
+      - seccomp:unconfined
 
-  nuerl-api:
+  neurl-api:
     build:
       context: .
       dockerfile: Dockerfile

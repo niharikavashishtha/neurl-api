@@ -48,6 +48,19 @@ $ java -jar -Dspring.profiles.active=h2 neurl-api-0.0.1-SNAPSHOT.jar
 ## How to test
 I have added [PostMan collection](./POSTMAN.json) to test the APIs
 
+## Things I learned and used in this project
+
+#### Docker and docker compose
+Tools to spin up multiple containers and scaling them.
+#### Spring web REST
+SpringBoot tools for building RESTful services.
+#### Lombok
+Convenient tool for code auto-generation.
+#### Spring JPA, mysql, h2
+SpringBoot tool for JPA for accessing databse.
+#### Nginx proxy for load balancing
+Proxy server for load balancing http requests.
+
 ## Things to be done
 
 ### User API key for authorization 
@@ -72,14 +85,3 @@ But to optimize the performance we can use distributed cache like Redis.
 APIs are not documented yet, I would use swagger API documentation tool which provides 
 @ApiOperation for this.
 
-## Things I learned and used in this project
-#### Docker and docker compose
- Tools to spin up multiple containers and scaling them.
-#### Spring web REST
-SpringBoot tools for building RESTful services.
-#### Lombok
-Convenient tool for code auto-generation. 
-#### Spring JPA, mysql, h2
-SpringBoot tool for JPA for accessing databse.
-#### Nginx proxy for load balancing
-Proxy server for load balancing http requests.

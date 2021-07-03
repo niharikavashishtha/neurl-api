@@ -13,7 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles({"local", "test", "h2"})
 public class NeurlControllerTest {
     @LocalServerPort
@@ -32,19 +32,50 @@ public class NeurlControllerTest {
 
         ResponseEntity<String> returnValue = this.restTemplate.postForEntity("http://localhost:" + port + "/neurl/short-me", longURLDto, String.class);
         assertThat(returnValue.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(returnValue.getBody()).isEqualTo("cvuMJB");
+        assertThat(returnValue.getBody()).isEqualTo("http://localhost:8080/neurl/cvuMJB");
     }
+
 
     @Test
     @Order(2)
-    public void test_get_me_url() throws Exception {
+    public void test_post_short_me_url_null_url_request() throws Exception {
+        LongUrlDTO longURLDto = new LongUrlDTO();
+        longURLDto.setLongUrl(null);
+        ResponseEntity<String> returnValue = this.restTemplate.postForEntity("http://localhost:" + port + "/neurl/short-me", longURLDto, String.class);
+        assertThat(returnValue.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
 
+    @Test
+    @Order(3)
+    public void test_post_short_me_url_empty_url_request() throws Exception {
+        LongUrlDTO longURLDto = new LongUrlDTO();
+        longURLDto.setLongUrl("");
+        ResponseEntity<String> returnValue = this.restTemplate.postForEntity("http://localhost:" + port + "/neurl/short-me", longURLDto, String.class);
+        assertThat(returnValue.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    @Order(4)
+    public void test_get_me_url() throws Exception {
         LongUrlDTO longURLDto = new LongUrlDTO();
         longURLDto.setLongUrl("http://www.neueda.com/something/exciting/going/to/happen/with/this/long/url");
-
         ResponseEntity<String> returnPostValue = this.restTemplate.postForEntity("http://localhost:" + port + "/neurl/short-me", longURLDto, String.class);
 
-        ResponseEntity<Void> returnGetValue = this.restTemplate.getForEntity("http://localhost:" + port + "/neurl/" + returnPostValue.getBody(), Void.class);
+        ResponseEntity<Void> returnGetValue = this.restTemplate.getForEntity( returnPostValue.getBody(), Void.class );
         assertThat(returnGetValue.getStatusCode()).isEqualTo(HttpStatus.FOUND);
+    }
+
+    @Test
+    @Order(5)
+    public void test_get_me_url_empty_short_url_passed() throws Exception {
+        ResponseEntity<Void> returnGetValue = this.restTemplate.getForEntity("http://localhost:" + port + "/neurl/" + " ", Void.class);
+        assertThat(returnGetValue.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    @Order(6)
+    public void test_get_me_url_empty_short_url_not_present() throws Exception {
+        ResponseEntity<Void> returnGetValue = this.restTemplate.getForEntity("http://localhost:" + port + "/neurl/" + "missing-short-code", Void.class);
+        assertThat(returnGetValue.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

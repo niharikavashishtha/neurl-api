@@ -32,4 +32,4 @@ services:
     depends_on:
       - neurl-api
     ports:
-      - "4000:4000"
+      - "8080:4000"

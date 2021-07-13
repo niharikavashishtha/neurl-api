@@ -2,7 +2,7 @@ package com.neueda.neurl.controller;
 
 import com.neueda.neurl.dto.LongUrlDTO;
 import com.neueda.neurl.service.UrlService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 @RequestMapping(path = "/neurl")
 public class NeurlController {
 
-    private UrlService urlService;
+    private final UrlService urlService;
 
     @Value("${neurl.api.longUrlMaxSize:2097152}")
     private int maxURLSize;

@@ -20,8 +20,11 @@ public class UrlEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_Gen")
     private Long id;
+
+    @Lob
+    @Column(columnDefinition = "Text")
     private String longUrl;
+
     @Column(nullable = false)
     private Date createdDate;
 }
-

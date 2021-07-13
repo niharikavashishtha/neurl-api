@@ -4,6 +4,7 @@ import com.neueda.neurl.dto.LongUrlDTO;
 import com.neueda.neurl.service.UrlService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,9 @@ public class NeurlController {
 
     private UrlService urlService;
 
+    @Value("${neurl.api.longUrlMaxSize:2097152}")
+    private int maxURLSize;
+
     @PostMapping(path = "/short-me" )
     @ResponseBody
     public ResponseEntity<String> shortMe(@RequestBody LongUrlDTO longURLDto) {
@@ -26,6 +30,11 @@ public class NeurlController {
             log.error("Invalid Input Passed");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+        if (longURLDto.getLongUrl().getBytes().length > maxURLSize) {
+            log.error("Long URL is longer than {}", maxURLSize);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
         log.info("Received URL shortening request for {}", longURLDto.getLongUrl());
         return ResponseEntity.status(HttpStatus.OK).body("http://localhost:8080/neurl/" + urlService.toShortUrl(longURLDto));
     }

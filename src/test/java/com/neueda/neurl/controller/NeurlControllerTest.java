@@ -76,6 +76,6 @@ public class NeurlControllerTest {
     @Order(6)
     public void test_get_me_url_empty_short_url_not_present() throws Exception {
         ResponseEntity<Void> returnGetValue = this.restTemplate.getForEntity("http://localhost:" + port + "/neurl/" + "missing-short-code", Void.class);
-        assertThat(returnGetValue.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+        assertThat(returnGetValue.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 }
